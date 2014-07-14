@@ -12,6 +12,7 @@ class TankUDP(nengo.Node):
         self.data = [0,0,0,0]
         self.last_time = None
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.socket.settimeout(0.01)
 
         super(TankUDP, self).__init__(output=self.send, size_in=size_in,
                                                           size_out=size_out)
@@ -38,20 +39,23 @@ class TankUDP(nengo.Node):
             grip = 'close' if x[2] > 0.5 else 'open'
 
             msg = "%d,%d,%s" % (left, right, grip)
-            print 'send', msg
+            #print 'send', msg
             self.socket.sendto(msg, self.target)
-            data = self.socket.recv(2048)
+            try:
+                data = self.socket.recv(2048)
 
-            data = data.strip().split(',')
+                data = data.strip().split(',')
 
-            max_sensor = 25.0
-            if len(data) == 5:
-                p_r, p_c, p_l = float(data[1]), float(data[2]), float(data[3])
-                p_r = (max_sensor - min(max(p_r, 0), max_sensor))/max_sensor
-                p_c = (max_sensor - min(max(p_c, 0), max_sensor))/max_sensor
-                p_l = (max_sensor - min(max(p_l, 0), max_sensor))/max_sensor
-                grip = 1 if data[4]=='catch' else 0
-                self.data = [p_r, p_c, p_l, grip]
+                max_sensor = 25.0
+                if len(data) == 5:
+                    p_r, p_c, p_l = float(data[1]), float(data[2]), float(data[3])
+                    p_r = (max_sensor - min(max(p_r, 0), max_sensor))/max_sensor
+                    p_c = (max_sensor - min(max(p_c, 0), max_sensor))/max_sensor
+                    p_l = (max_sensor - min(max(p_l, 0), max_sensor))/max_sensor
+                    grip = 1 if data[4]=='catch' else 0
+                    self.data = [p_r, p_c, p_l, grip]
+            except socket.error:
+                print 'missed packet'
 
             self.last_time = now
         return self.data
