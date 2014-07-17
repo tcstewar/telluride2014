@@ -2,11 +2,11 @@ import sys
 
 bot_index=int(sys.argv[1])
 
-addrs = ['10.162.177.43', '10.162.177.44', '10.162.177.49']
+addrs = ['10.162.177.43', '10.162.177.44', '10.162.177.55']
 freqs = [100, 200, 300]
-freqs = [400, 250, 50]
+#freqs = [400, 250, 50]
 
-dir = [1, 1, -1]
+dir = [-1, 1, 1]
 
 def get_dir():
     return dir[bot_index]
