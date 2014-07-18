@@ -27,7 +27,7 @@ with model:
     #BAD_bot.led(bad_freq)
 
     TANK_bot = nengo_pushbot.PushBotNetwork(tag.get_addr())
-    TANK_bot.laser(laser_freq)
+    #TANK_bot.laser(laser_freq)
     TANK_bot.led(laser_freq)
     TANK_bot.track_freqs([good_freq, bad_freq, laser_freq], certainty_scale=10000.0) #good-green, bad-red, laser-blue
     #TANK_bot.show_image()  # <----
@@ -70,7 +70,7 @@ with model:
         elif (x[3]<detect) and (x[4]>=detect) and (x[1]>0):
             #print 'no good, bad on right'
         # no good, and bad right
-            if x[2]>=-dist: return [4-retreat,-retreat]  # hurry away to the right, close 
+            if x[2]>=-dist: return [4-retreat,-retreat]  # hurry away to the right, close
             elif x[2]<-dist: return [4-scram,-scram] # scram to the right, too close
             # turn left and go away
         elif (x[3]>=detect) and (x[0]<-marg) and ((x[4]<detect) or ((x[4]>=detect) and (x[1]>=marg))):
@@ -78,7 +78,7 @@ with model:
         # good left, and no bad or bad right
             if x[2]<-dist: return [-0.8+goforit,1+goforit]
             elif x[2]>=-dist: return [-0.4+advance,0.5+advance]
-            # turn left and go forward 
+            # turn left and go forward
         elif (x[3]>=detect) and (x[0]>marg) and ((x[4]<detect) or ((x[4]>=detect) and (x[1]<-marg))):
             #print 'good right, no bad or bad on left'
         # good right, and no bad or bad left
@@ -92,7 +92,7 @@ with model:
             return [5,5]
         elif (x[3]>=detect) and (x[4]>detect) and (x[0]<x[1]):
             #print 'good left, bad right'
-        # good left, bad right 
+        # good left, bad right
             if x[2]>=-dist: return [-2,0]
             elif x[2]<-dist: return [-1,0]
             #turn left and inch forward
@@ -104,7 +104,7 @@ with model:
             # turn right and inch forward
         elif (x[3]<detect) and (x[4]<detect):
             #print 'no good and no bad'
-        # no good and no bad, check for and avoid obstacles 
+        # no good and no bad, check for and avoid obstacles
             if x[2]>=0: return [1+advance,-advance] # spiral forward and right
             elif x[2]>-dist: return [1,-1] # turn in place to avoid near object
             elif x[2]<dist: return [0.5,-0.5] # turn in place to avoid very near object
@@ -113,7 +113,7 @@ with model:
         # Too close to something, backup
         #print 'nothing to do'
         return [1,-1]
-            # fell through above ifs, so turn and look more 
+            # fell through above ifs, so turn and look more
 
     # F.M.I.
     # a[start:end] # items start through end-1  <----------Less confusing (sort of)

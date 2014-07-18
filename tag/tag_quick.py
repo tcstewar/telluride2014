@@ -18,7 +18,7 @@ with model:
     bot.track_freqs([tag.get_good_freq(), tag.get_bad_freq()],
                     certainty_scale=6000)
     bot.led(tag.get_self_freq())
-    bot.laser(tag.get_self_freq())
+    #bot.laser(tag.get_self_freq())
     #bot.show_image()
 
     osc = nengo.Ensemble(300, 2, label='osc')

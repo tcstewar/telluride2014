@@ -23,7 +23,7 @@ with model:
 
     #track laser to control forward and backward movement
     bot.track_freqs([tag.get_bad_freq(), tag.get_good_freq()])
-    bot.laser(tag.get_self_freq())
+    #bot.laser(tag.get_self_freq())
     bot.led(tag.get_self_freq())
     laser_pos = nengo.Ensemble(500, 3, label='laser_pos', radius=1.7)
     food_pos = nengo.Ensemble(500, 3, label='food_pos', radius=1.7)
