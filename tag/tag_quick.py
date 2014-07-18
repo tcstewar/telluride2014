@@ -53,7 +53,7 @@ with model:
     nengo.Connection(found, charge)
     nengo.Connection(charge, bot.motor, transform=[[2*flip], [2*flip]])
 
-    nengo.Connection(found, pulse.neurons, function=lambda x: 1 if x>0.5 else 0,
+    nengo.Connection(charge, pulse.neurons, function=lambda x: 1 if x>0.5 else 0,
                             transform=[[-5]]*100)
 
 
